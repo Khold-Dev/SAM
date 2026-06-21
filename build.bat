@@ -1,39 +1,35 @@
 @echo off
-REM Build standalone KholdVoices.exe
+setlocal
+cd /d "%~dp0"
+
+where python >nul 2>nul
+if errorlevel 1 (
+    echo Python 3 is required. Install it from https://www.python.org/downloads/
+    pause
+    exit /b 1
+)
+
+if not exist ".venv\Scripts\python.exe" (
+    echo Creating the local Python environment...
+    python -m venv .venv || goto :error
+)
+
+echo Installing build requirements...
+".venv\Scripts\python.exe" -m pip install -r requirements.txt pyinstaller pillow || goto :error
+
+echo Creating the application icon...
+".venv\Scripts\python.exe" build_setup.py || goto :error
 
 echo Building Khold Voices...
-echo.
-
-REM Install dependencies
-echo [1/3] Installing build tools...
-python -m pip install --quiet pyinstaller pillow
-if errorlevel 1 (
-    echo Error: Failed to install dependencies
-    pause
-    exit /b 1
-)
-
-REM Convert PNG to ICO
-echo [2/3] Converting PNG to ICO...
-python build_setup.py
-if errorlevel 1 (
-    echo Error: Failed to convert PNG to ICO
-    pause
-    exit /b 1
-)
-
-REM Build EXE
-echo [3/3] Building executable...
-python -m PyInstaller voice_machine.spec --noconfirm --clean
-if errorlevel 1 (
-    echo Error: Failed to build executable
-    pause
-    exit /b 1
-)
+".venv\Scripts\python.exe" -m PyInstaller voice_machine.spec --noconfirm --clean || goto :error
 
 echo.
-echo ✓ Build complete!
-echo.
-echo Your executable is ready at: dist\KholdVoices.exe
-echo.
+echo Build complete: dist\KholdVoices.exe
 pause
+exit /b 0
+
+:error
+echo.
+echo Build failed. Check the error above and try again.
+pause
+exit /b 1

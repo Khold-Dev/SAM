@@ -6,7 +6,7 @@ Khold Voices is a Windows desktop text-to-speech app combining the retro SAM voi
 
 - Windows 10 or 11 (64-bit)
 - Python 3.10 or newer from [python.org](https://www.python.org/downloads/)
-- Internet access on the first launch to install the two Python packages in `requirements.txt`
+- Internet access for the first setup
 
 The SAM and Piper executables and voice models are included in the repository.
 
@@ -20,9 +20,11 @@ run.bat
 
 The first run creates `.venv`, installs the required packages, and launches the app. Later runs start immediately. If `requirements.txt` changes, delete `.venv` and run `run.bat` again.
 
-## Build a standalone executable
+## Build the standalone app
 
-Run `build.bat`. It installs PyInstaller and Pillow, then writes `dist\KholdVoices.exe`. The `build` and `dist` directories are generated locally and are not committed.
+Double-click `build.bat`. It sets up everything it needs and creates `dist\KholdVoices.exe`. Open that file to run the finished app without Python.
+
+The first build requires internet access and can take several minutes. The `build` and `dist` directories are generated locally and are not committed.
 
 ## Repository layout
 
