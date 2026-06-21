@@ -1,3 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# PyInstaller output
+build/
+dist/
+
+# Local tools and editor files
+.claude/settings.local.json
+.vscode/
+.idea/
+
+# OS files
 .DS_Store
+Thumbs.db
+
+# Native SAM build output
 *.o
 /sam
